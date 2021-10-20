@@ -1,5 +1,7 @@
 class Blog2sController < ApplicationController
   before_action :set_blog2, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
   # GET /blog2s or /blog2s.json
   def index
@@ -12,7 +14,8 @@ class Blog2sController < ApplicationController
 
   # GET /blog2s/new
   def new
-    @blog2 = Blog2.new
+    #@blog2 = Blog2.new
+    @blog2 = current_user.friends.build
   end
 
   # GET /blog2s/1/edit
@@ -21,7 +24,8 @@ class Blog2sController < ApplicationController
 
   # POST /blog2s or /blog2s.json
   def create
-    @blog2 = Blog2.new(blog2_params)
+    #@blog2 = Blog2.new(blog2_params)
+    @friend = current_user.friends.build(friend_params)
 
     respond_to do |format|
       if @blog2.save
@@ -56,6 +60,11 @@ class Blog2sController < ApplicationController
     end
   end
 
+  def correct_user
+    @blog2 = current_user.blog2s.find_by(id: params[:id])
+    redirect_to blog2s_path, notice: "Not Authorized To Edit This Friend" if @blog2.nil?
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_blog2
@@ -64,6 +73,6 @@ class Blog2sController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def blog2_params
-      params.require(:blog2).permit(:title, :author, :content)
+      params.require(:blog2).permit(:title, :author, :content, :user_id)
     end
 end

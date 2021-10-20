@@ -10,13 +10,16 @@
         <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
         <div class="col p-4 d-flex flex-column position-static">
             <strong class="d-inline-block mb-2 text-primary">Article  by <%= blog2.author %></strong>
+            <a href="#" class="text-decoration-none"> User id: <%= blog2.user_id %></a>
             <h3 class="mb-0"><%= blog2.title %></h3>
             <p class="card-text mb-auto"><%= blog2.content.truncate(400) %></p>
             <div class="my-2">
             <td><%= link_to 'Show', blog2 %></td>
+    
             <td><%= link_to 'Edit', edit_blog2_path(blog2) %></td>
             <td><%= link_to 'Destroy', blog2, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
+      
     <% end %>
   </tbody>
 

@@ -15,7 +15,7 @@ class Blog2sController < ApplicationController
   # GET /blog2s/new
   def new
     #@blog2 = Blog2.new
-    @blog2 = current_user.friends.build
+    @blog2 = current_user.blog2s.build
   end
 
   # GET /blog2s/1/edit
@@ -25,7 +25,7 @@ class Blog2sController < ApplicationController
   # POST /blog2s or /blog2s.json
   def create
     #@blog2 = Blog2.new(blog2_params)
-    @friend = current_user.friends.build(friend_params)
+    @blog2 = current_user.blog2s.build(blog2_params)
 
     respond_to do |format|
       if @blog2.save
@@ -62,7 +62,7 @@ class Blog2sController < ApplicationController
 
   def correct_user
     @blog2 = current_user.blog2s.find_by(id: params[:id])
-    redirect_to blog2s_path, notice: "Not Authorized To Edit This Friend" if @blog2.nil?
+    redirect_to blog2s_path, notice: "Not Authorized To Edit This Blog" if @blog2.nil?
   end
 
   private
